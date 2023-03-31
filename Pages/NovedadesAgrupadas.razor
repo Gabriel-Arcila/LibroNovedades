@@ -553,6 +553,7 @@
     protected async Task BuscarTiempoPerdido(ChangeEventArgs e){
         try{
             dataNove.IdLinea = int.Parse(e.Value.ToString());
+            listaEquiposEAM = null;
             listaEquiposEAM = await DataEquipoEAM.BuscarEquiposSegunLinea(dataNove.IdLinea);
             Linea linea =  listaLineas.Where(l => l.IdLinea == int.Parse(e.Value.ToString())).FirstOrDefault();
             dataNove.IdMaquina = linea.Lofic;
