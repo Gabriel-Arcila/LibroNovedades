@@ -506,14 +506,55 @@
                         mensaje = "Error. Intente de nuevo";
                     }
                 }
-                catch (Microsoft.EntityFrameworkCore.DbUpdateException a)
+                catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
                 {
-                    //TODO:cambiar ----> mensaje = "Error: " + a.Message;
-                    mensaje = a.Message;
-                    @* dataNove = new LibroNove();
-                    dataNove.Lnturno = listaTurnoYGrupo[0];
-                    dataNove.Lngrupo = listaTurnoYGrupo[1];
-                    usuario = null; *@
+                    mensaje = "Error: " + ex.Message + ", /n Por favor intenté de nuevo. Si el problema persiste darle al botón 'logout' en la parte superior de la pantalla e intente de nueva más tarde.";
+                    
+                    var a = dataNove.IdAreaCar;
+                    var b = dataNove.IdAreaCarNavigation;
+                    var c = dataNove.IdCtpm;
+                    var d = dataNove.IdCtpmNavigation;
+                    var de = dataNove.IdEquipo;
+                    var f = dataNove.IdlibrNov;
+                    var g = dataNove.IdLinea;
+                    var h = dataNove.IdLineaNavigation;
+                    var i = dataNove.IdMaquina;
+                    var j = dataNove.IdParada;
+                    var k = dataNove.IdTipoNove;
+                    var l = dataNove.IdTipoNoveNavigation;
+                    var m = dataNove.Lndiscrepa;
+                    var n = dataNove.Lnfecha;
+                    var o = dataNove.LnfichaRes;
+                    var p = dataNove.Lngrupo;
+                    var q = dataNove.LnisPizUni;
+                    var r = dataNove.LnisResu;
+                    var s = dataNove.Lnobserv;
+                    var t = dataNove.LntiePerMi;
+                    var u = dataNove.Lnturno;
+                    
+                    dataNove = new LibroNove();
+
+                    dataNove.IdAreaCar = a;
+                    dataNove.IdAreaCarNavigation = b;
+                    dataNove.IdCtpm = c;
+                    dataNove.IdCtpmNavigation = d;
+                    dataNove.IdEquipo = de;
+                    dataNove.IdlibrNov = f;
+                    dataNove.IdLinea = g;
+                    dataNove.IdLineaNavigation = h;
+                    dataNove.IdMaquina = i;
+                    dataNove.IdParada = j;
+                    dataNove.IdTipoNove = k;
+                    dataNove.IdTipoNoveNavigation = l;
+                    dataNove.Lndiscrepa = m;
+                    dataNove.Lnfecha = n;
+                    dataNove.LnfichaRes = o;
+                    dataNove.Lngrupo = p;
+                    dataNove.LnisPizUni = q;
+                    dataNove.LnisResu = r;
+                    dataNove.Lnobserv = s;
+                    dataNove.LntiePerMi = t;
+                    dataNove.Lnturno = u;
                 }
                 catch(Exception ex){
                     mensaje = ex.Message;
