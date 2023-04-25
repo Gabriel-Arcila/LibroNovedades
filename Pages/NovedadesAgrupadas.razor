@@ -608,7 +608,7 @@
             
             for (int i = 0; i < paradas[0].Count; i++)
             {
-                temporal = paradas[0][i] + "-" + paradas[1][i] + "-" + paradas[2][i] + "-" +  DateTime.Now.ToString("ddMMyyyy") + "-" + listaTurnoYGrupo[0] + listaTurnoYGrupo[1];
+                temporal = paradas[0][i] + "-" + paradas[1][i] + "-" + paradas[2][i] + "-" +  DateTime.Now.ToString("ddMMyyyy") + "-" + listaTurnoYGrupo[0] + listaTurnoYGrupo[1] + "-" + dataNove.IdMaquina.Replace("-","");
                 dataNov = listaNove.Where(n => n.IdParada == temporal).FirstOrDefault();
                 if(dataNov == null){
                     listaDeEstado.Add("0");
@@ -653,7 +653,7 @@
         //string a = await ReturnArrayAsync(item.ToString());
         try{
             indexCambio = item;
-            string temporal = paradas[0][item] + "-" + paradas[1][item] + "-" + paradas[2][item] + "-" +  DateTime.Now.ToString("ddMMyyyy") + "-" + listaTurnoYGrupo[0] + listaTurnoYGrupo[1];
+            string temporal = paradas[0][item] + "-" + paradas[1][item] + "-" + paradas[2][item] + "-" +  DateTime.Now.ToString("ddMMyyyy") + "-" + listaTurnoYGrupo[0] + listaTurnoYGrupo[1] + "-" + dataNove.IdMaquina.Replace("-","");
             LibroNove data = await DataLibroNov.ObtenerPorIdParada(temporal);
             if(data == null){
                 tipoParada = await DataTiParTP.ObtenerTipoParadaId(paradas[1][item]);
