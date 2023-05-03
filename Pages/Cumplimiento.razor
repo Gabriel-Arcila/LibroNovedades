@@ -1,0 +1,13 @@
+
+@inject IDataLibroNov DataLibroNov
+
+
+
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+        DateTime fechaI = new DateTime(2023,4,1);
+        DateTime fechaF = new DateTime(2023,4,30);
+        await DataLibroNov.CalcularCumplimiento(fechaI,fechaF,"division",1);
+    }
+}

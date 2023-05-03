@@ -129,7 +129,7 @@
             mensaje = "Ficha no encontrada";
         }else{
 
-            if(ficha.ToUpper() == "J4779"){
+            if(ficha.ToUpper() == "J4779" || ficha.ToUpper() == "G4140"){
                 await LocalStorage.SetItemAsync("usuarioD", "CONVERSION");
                 await LocalStorage.SetItemAsync("usuarioC", "SUPDTE. PRODUCCION CONVERSION");
             }else{
