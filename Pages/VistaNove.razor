@@ -33,8 +33,12 @@
                     
                     <BSRow>
                         <BSCol Position="Position.Relative" Place ColumnMedium="3">
-                            <BSLabel class="labelFormulario">Fecha</BSLabel>
-                            <BSInput BSInput InputType="InputType.Date" rows="1" @bind-Value="filtroFecha"></BSInput>
+                            <BSLabel class="labelFormulario">Desde</BSLabel>
+                            <BSInput BSInput InputType="InputType.Date" rows="1" @bind-Value="filtroFechaInicio"></BSInput>
+                        </BSCol>
+                        <BSCol Position="Position.Relative" Place ColumnMedium="3">
+                            <BSLabel class="labelFormulario">Hasta</BSLabel>
+                            <BSInput BSInput InputType="InputType.Date" rows="1" @bind-Value="filtroFechaFinal"></BSInput>
                         </BSCol>
                         <BSCol Position="Position.Relative" Place ColumnMedium="3">
                             <BSLabel class="labelFormulario">Linea</BSLabel>
@@ -50,7 +54,10 @@
                                     }
                                 </BSInput>
                         </BSCol>
-                        <BSCol Position="Position.Relative" Place ColumnMedium="5">
+                    </BSRow> 
+                    <br>
+                    <BSRow>
+                         <BSCol Position="Position.Relative" Place ColumnMedium="5">
                             <BSLabel class="labelFormulario">Tipo de Novedad</BSLabel>
                                 <BSInput  InputType="InputType.Select" @bind-Value="filtroTipoNovedad">
                                     <option value="0">Seleccionar el Tipo de Novedad</option>
@@ -64,7 +71,7 @@
                                     }
                                 </BSInput>
                         </BSCol>
-                    </BSRow> 
+                    </BSRow>
                     <br>
                     <BSRow>
                         <BSCol Position="Position.Relative" Place ColumnMedium="4">
@@ -79,6 +86,7 @@
                             <BSTHead>
                                 <BSTR class="cabeceraTabla">
                                     <BSTD>Linea</BSTD>
+                                    <BSTD>Fecha</BSTD>
                                     <BSTD>Codigo de Equipo</BSTD>
                                     <BSTD>Grupo</BSTD>
                                     <BSTD>Turno</BSTD>
@@ -97,6 +105,7 @@
                                 @foreach (var item in listaNovedades){
                                     <BSTR>
                                         <BSTD>@item.IdLineaNavigation.Lnom</BSTD>
+                                        <BSTD>@item.Lnfecha.ToString("dd/MM/yyyy")</BSTD>
                                         <BSTD>@item.IdEquipo</BSTD>
                                         <BSTD>@item.Lngrupo</BSTD>
                                         <BSTD>@item.Lnturno</BSTD>
@@ -170,7 +179,8 @@
     private bool Value { get; set; } = false;
     private BSAlert _alertRef;
     private bool _buttonDisabled = true;
-    private DateTime filtroFecha { get; set;}
+    private DateTime filtroFechaInicio { get; set;}
+    private DateTime filtroFechaFinal { get; set;}
     private int filtroTipoNovedad { get; set;}
     private int filtroLinea { get; set;}
     private List<LibroNove> listaNovedades { get; set;}
@@ -197,52 +207,6 @@
     protected async Task cerrar(){
         await refModal.HideAsync();
     }
-    @* protected  async Task Carga()
-    {
-        if(true){
-            usuarioCache = new Dictionary<string,string>();
-            usuarioCache.Add("usuarioD",await sessionStorage.GetItemAsync<string>("usuarioD"));
-            usuarioCache.Add("usuarioC",await sessionStorage.GetItemAsync<string>("usuarioC"));
-            usuarioCache.Add("usuarioF",await sessionStorage.GetItemAsync<string>("usuarioF"));
-
-            if(usuarioCache["usuarioD"] == "" ||  usuarioCache["usuarioD"]  == null){
-                NavigationManager.NavigateTo("Login");
-            }else{
-                if(usuarioCache["usuarioC"].Contains("SUPDTE") || usuarioCache["usuarioC"].Contains("GERENTE") || usuarioCache["usuarioC"].Contains("DIRECTOR") || usuarioCache["usuarioC"].Contains("SUPERINTENDENTE") || usuarioCache["usuarioD"].Contains("MEJORA CONTINUA") ||  usuarioCache["usuarioC"].Contains("MEJ. CONT") ||  usuarioCache["usuarioC"].Contains("JEFE DE TURNOS")  ||  usuarioCache["usuarioF"].Contains("J4779") ||  usuarioCache["usuarioF"].Contains("G4140")) {
-                    IsAccesoPizarra = true;
-                }else{
-                    IsAccesoPizarra = false;
-                }
-
-                IsCargado = true;
-                if(usuarioCache["usuarioD"].Contains("CONVERSION") || usuarioCache["usuarioD"].Contains("CELDA")){
-                    idCentro = 1;
-                    listaLineas = await DataLinea.ObtenerLasLineasPorCentro(idCentro);
-                }else if(usuarioCache["usuarioD"].Contains("MOLINO")){
-                    idCentro = 2;
-                    listaLineas = await DataLinea.ObtenerLasLineasPorCentro(idCentro);
-                }else if(
-                    usuarioCache["usuarioD"].Contains("CONTROL DE PROCESOS") ||
-                    usuarioCache["usuarioD"].Contains("MANTENIMIENTO") ||
-                    usuarioCache["usuarioD"].Contains("GCIA SERVICIOS INDUSTRIALES") ||
-                    usuarioCache["usuarioC"].Contains("INGENIERO DE PROY. Y MEJ. CONT") ||
-                    usuarioCache["usuarioD"].Contains("LABORATORIO") ||
-                    usuarioCache["usuarioD"].Contains("SEGURIDAD INDUSTRIAL")
-                ){
-                    IsChempro = true;
-                    idCentro = 9;
-                    listaLineas = await DataLinea.ObtenerLasLineasPorCentro(idCentro);
-                }else if(usuarioCache["usuarioD"].Contains("MEJORA CONTINUA")){
-                    listaLineas = await DataLinea.ObtenerLasLineasPorCentro(0);
-                }else{
-                    mensaje = "No tiene acceso";
-                    idCentro = -1;
-                }
-            }
-        }
-    } *@
-
-    
     
     protected override async Task  OnInitializedAsync()
     {
@@ -303,7 +267,8 @@
 
         mensaje = "Historico de registro de las novedades";
         listaTiposNovedad = await DataTiParTP.ObtenerTodosTiposNovedad();
-        filtroFecha = DateTime.Now.Date;
+        filtroFechaInicio = DateTime.Now.Date;
+        filtroFechaFinal = DateTime.Now.Date;
         isDisabled = false;
         discrepancia = "Discrepancia: ";
         observcion = "Observación: ";
@@ -314,11 +279,27 @@
 
     protected async Task buscar(){
         try{
-            listaNovedades = null;
-            if(idAreCargada == 0){
-                listaNovedades = await DataLibroNov.ObtenerLibroNovedadesPorFiltro(idCentro,filtroFecha,filtroLinea,filtroTipoNovedad);
+            if(filtroFechaInicio.Date == filtroFechaFinal.Date) {
+                listaNovedades = null;
+                if(idAreCargada == 0){
+                    listaNovedades = await DataLibroNov.ObtenerLibroNovedadesPorFiltro(idCentro,filtroFechaInicio,filtroLinea,filtroTipoNovedad);
+                }else{
+                    listaNovedades = await DataLibroNov.ObtenerLibroNovedadesDelAreaQueCarga(filtroFechaInicio,filtroLinea,filtroTipoNovedad,idAreCargada);
+                }
+            }else if(filtroFechaInicio.Date < filtroFechaFinal.Date){
+                listaNovedades = null;
+                if(idAreCargada == 0){
+                    listaNovedades = await DataLibroNov.ObtenerLibroNovedadesPorFiltroEntreFechas(idCentro,filtroFechaInicio,filtroFechaFinal,filtroLinea,filtroTipoNovedad);
+                }else{
+                    listaNovedades = await DataLibroNov.ObtenerLibroNovedadesDelAreaQueCargaEntreFechas(filtroFechaInicio,filtroFechaFinal,filtroLinea,filtroTipoNovedad,idAreCargada);
+                }
             }else{
-                listaNovedades = await DataLibroNov.ObtenerLibroNovedadesDelAreaQueCarga(filtroFecha,filtroLinea,filtroTipoNovedad,idAreCargada);
+                listaNovedades = null;
+                if(idAreCargada == 0){
+                    listaNovedades = await DataLibroNov.ObtenerLibroNovedadesPorFiltroEntreFechas(idCentro,filtroFechaFinal,filtroFechaInicio,filtroLinea,filtroTipoNovedad);
+                }else{
+                    listaNovedades = await DataLibroNov.ObtenerLibroNovedadesDelAreaQueCargaEntreFechas(filtroFechaFinal,filtroFechaInicio,filtroLinea,filtroTipoNovedad,idAreCargada);
+                }
             }
         }catch(Exception e){
             mensaje = e.Message;
@@ -330,7 +311,7 @@
 
         try{
             await refModal.ShowAsync();
-            band1 = await LogicLibroNov.CambiosBDLibro(idCentro,listaNovedades,filtroFecha,filtroLinea,filtroTipoNovedad,usuarioCache["usuarioN"] + " " + usuarioCache["usuarioA"]);
+            band1 = await LogicLibroNov.CambiosBDLibro(idCentro,listaNovedades,filtroFechaInicio,filtroLinea,filtroTipoNovedad,usuarioCache["usuarioN"] + " " + usuarioCache["usuarioA"]);
             if(band1){
                 band2 = await DataLibroNov.UpdateRegistros(listaNovedades);
                 if(band2){
