@@ -30,7 +30,7 @@
         </BSRow>
     </BSContainer>
     <BSCard CardType="CardType.Card" style="width: 90%;" MarginBottom="Margins.Large">
-        <BSAlert IsOpen="_showTooltip" style="height:55px;" class="alertaInfo"  @ref="_alertRef" Dismissed="Dismissed">
+        <BSAlert IsOpen="_showTooltip"  class="alertaInfo"  @ref="_alertRef" Dismissed="Dismissed">
             <h5>@mensaje</h5>
         </BSAlert>
         <BSCard CardType="CardType.Body">
@@ -292,7 +292,7 @@
     </BSRow>
 }
 @code{
-    private string? mensaje { get; set;}
+    private string mensaje { get; set;}
     private string nota { get; set;}
     private string? departamento { get; set;}
     private LibroNove dataNove  { get; set;}
@@ -508,7 +508,7 @@
                 }
                 catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
                 {
-                    mensaje = "Error: " + ex.Message + ", /n Por favor intenté de nuevo. Si el problema persiste darle al botón 'logout' en la parte superior de la pantalla e intente de nueva más tarde.";
+                    mensaje = "Error: Por favor intenté de nuevo. Si el problema persiste darle al botón 'logout' en la parte superior de la pantalla e intente de nueva más tarde.";
                     
                     var a = dataNove.IdAreaCar;
                     var b = dataNove.IdAreaCarNavigation;
